@@ -1,5 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
+  id: deploy-decryption-function
   args:
   - functions
   - deploy
@@ -13,6 +14,8 @@ steps:
   - --timeout=300
 
 - name: 'gcr.io/cloud-builders/gcloud'
+  id: create-dataflow-job
+  waitFor: ['deploy-decryption-function']
   args:
   - dataflow
   - sql
