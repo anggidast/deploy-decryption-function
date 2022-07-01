@@ -25,4 +25,7 @@ steps:
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
+options:
+  logging: CLOUD_LOGGING_ONLY
+
 
