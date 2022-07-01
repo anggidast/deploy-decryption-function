@@ -4,7 +4,7 @@ steps:
   args:
   - functions
   - deploy
-  - decryption_function
+  - decryption-function
   - --runtime=python38
   - --entry-point=hello_pubsub 
   - --source=gs://test-decryption-function-source/source/source.zip
