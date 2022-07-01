@@ -1,0 +1,25 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - functions
+  - deploy
+  - decryption_function
+  - --runtime=python38
+  - --entry-point=hello_pubsub 
+  - --source=gs://test-decryption-function-source/source/source.zip
+  - --trigger-topic=trigger-topic-customerLifetimeValue
+  - --allow-unauthenticated
+  - --region=asia-southeast2
+  - --timeout=300
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - dataflow
+  - sql
+  - query
+  - 'SELECT *, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`accenture-283510`.aixp_staging.replicated_aixp_combined_user_events_f0fd4175f53eea947dee4d9ef6d01028'
+  - --job-name=cltv-test
+  - --pubsub-topic=trigger-topic-customerLifetimeValue
+  - --region=asia-southeast2
+
+
