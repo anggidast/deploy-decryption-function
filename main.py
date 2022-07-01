@@ -33,8 +33,6 @@ def hello_pubsub(event, context):
     for col in encrypted_cols:
         decrypted_data = udf_decrypt(data[col])
         data['%s_decrypted' %col] = decrypted_data
-    data.pop('project_id')
-    data.pop('table_name')
     data.pop('encrypted_cols')
     data.pop('date_cols')
     print('data: %s' % data)
