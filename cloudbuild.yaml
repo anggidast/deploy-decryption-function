@@ -11,8 +11,7 @@ steps:
   - --trigger-topic=trigger-topic-customerLifetimeValue
   - --allow-unauthenticated
   - --region=asia-southeast2
-  - --timeout=300
-timeout: "1800s"
+  - --timeout=300s
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job
