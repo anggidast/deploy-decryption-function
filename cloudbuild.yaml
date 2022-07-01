@@ -12,6 +12,7 @@ steps:
   - --allow-unauthenticated
   - --region=asia-southeast2
   - --timeout=300
+timeout: "1800s"
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job
