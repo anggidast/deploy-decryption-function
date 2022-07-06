@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 BS = 16
 pad = lambda s: bytes(s + (BS - len(s) % BS) * chr(BS - len(s) % BS), 'utf-8')
 unpad = lambda s : s[0:-ord(s[-1:])]
-project_id = 'accenture-283510'
+project_id = 'crm-production-335312'
 table_name = 'customerLifetimeValue'
 topic_sink = 'decrypt-customerLifetimeValue-sink'
 encrypted_cols = []

@@ -7,8 +7,8 @@ steps:
   - decryption-function
   - --runtime=python38
   - --entry-point=hello_pubsub 
-  - --source=gs://test-decryption-function-source/source/source.zip
-  - --trigger-topic=trigger-topic-customerLifetimeValue
+  - --source=gs://test-decryption-function/source/source.zip
+  - --trigger-topic=trigger-topic-customerLifetimeValueProp
   - --allow-unauthenticated
   - --region=asia-southeast2
   - --timeout=300s
@@ -20,10 +20,18 @@ steps:
   - dataflow
   - sql
   - query
-  - 'SELECT *, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`accenture-283510`.aixp_staging.replicated_aixp_combined_user_events_f0fd4175f53eea947dee4d9ef6d01028'
+  - SELECT * EXCEPT(rnd), ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev cltv_propensity_prediction_rnd  WHERE rnd >= 0 and rnd < 0.1 LIMIT 12000x
   - --job-name=cltv-test
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: delete-deployed-function
+  waitFor: ['create-dataflow-job']
+  args:
+  - functions
+  - delete
+  - decryption-function
+  - --region=asia-southeast2
 
 
