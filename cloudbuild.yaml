@@ -20,7 +20,7 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev cltv_propensity_prediction_rnd  WHERE rnd >= 0 and rnd < 0.1 LIMIT 12000x
+  - SELECT * EXCEPT(rnd), ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0 and rnd < 0.1 LIMIT 12000
   - --job-name=cltv-test
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
+  - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
