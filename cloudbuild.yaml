@@ -129,4 +129,15 @@ steps:
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
-timeout: 1200s
+- name: 'ubuntu'
+  args: ['sleep', '1800']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: delete-deployed-function
+  args:
+  - functions
+  - delete
+  - decryption-function
+  - --region=asia-southeast2
+
+timeout: 3600s
