@@ -128,3 +128,5 @@ steps:
   - --job-name=cltv-prop-10
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+timeout: 1200s
