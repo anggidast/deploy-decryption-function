@@ -10,9 +10,10 @@ pad = lambda s: bytes(s + (BS - len(s) % BS) * chr(BS - len(s) % BS), 'utf-8')
 unpad = lambda s : s[0:-ord(s[-1:])]
 project_id = 'crm-production-335312'
 table_name = 'customerLifetimeValue'
-topic_sink = 'decrypt-customerLifetimeValue-sink'
+topic_sink = ''
 encrypted_cols = []
 date_cols = []
+batch = 1
 publisher = pubsub_v1.PublisherClient()
 
 def hello_pubsub(event, context):
@@ -26,6 +27,8 @@ def hello_pubsub(event, context):
     data = json.loads(payload)
     globals()['encrypted_cols'] = data['encrypted_cols']
     globals()['date_cols'] = data['date_cols']
+    globals()['batch'] = data['batch']
+    globals()['topic_sink'] = 'decrypt-%s-%s-sink' %(table_name, batch)
 
     for col in date_cols:
         if data[col] is not None:
