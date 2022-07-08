@@ -58,7 +58,7 @@ steps:
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '300']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-5
@@ -93,6 +93,9 @@ steps:
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
+- name: 'ubuntu'
+  args: ['sleep', '900']
+
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-8
   args:
@@ -103,9 +106,6 @@ steps:
   - --job-name=cltv-prop-8
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
-
-- name: 'ubuntu'
-  args: ['sleep', '300']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-9
@@ -140,4 +140,4 @@ steps:
   - decryption-function
   - --region=asia-southeast2
 
-timeout: 3600s
+timeout: 7200s
