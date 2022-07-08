@@ -21,7 +21,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 20 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0 and rnd < 0.1
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-1
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -33,7 +33,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 21 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.1 and rnd < 0.2
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-2
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -45,7 +45,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 22 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.2 and rnd < 0.3
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-3
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -57,7 +57,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 23 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.3 and rnd < 0.4
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-4
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -69,7 +69,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 24 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.4 and rnd < 0.5
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-5
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -81,7 +81,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 25 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.5 and rnd < 0.6
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-6
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -93,7 +93,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 26 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.6 and rnd < 0.7
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-7
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -105,7 +105,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 27 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.7 and rnd < 0.8
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-8
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -117,7 +117,7 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 28 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.8 and rnd < 0.9
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-9
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
@@ -129,6 +129,6 @@ steps:
   - sql
   - query
   - SELECT * EXCEPT(rnd), 29 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.9
-  - --job-name=cltv-test
+  - --job-name=cltv-prop-10
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
