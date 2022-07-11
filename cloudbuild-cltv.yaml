@@ -14,18 +14,74 @@ steps:
   - --timeout=300s
 
 - name: 'gcr.io/cloud-builders/gcloud'
+  id: create-dataflow-job-cltv-1
+  args:
+  - dataflow
+  - sql
+  - query
+  - SELECT *, 1 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0 and consumer_id < 0.05
+  - --job-name=cltv-1
+  - --pubsub-topic=trigger-topic-customerLifetimeValue
+  - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '900']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: create-dataflow-job-cltv-2
+  args:
+  - dataflow
+  - sql
+  - query
+  - SELECT *, 2 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.0.5 and consumer_id < 0.1
+  - --job-name=cltv-2
+  - --pubsub-topic=trigger-topic-customerLifetimeValue
+  - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '900']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: create-dataflow-job-cltv-3
+  args:
+  - dataflow
+  - sql
+  - query
+  - SELECT *, 3 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.1 and consumer_id < 0.15
+  - --job-name=cltv-3
+  - --pubsub-topic=trigger-topic-customerLifetimeValue
+  - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '900']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: create-dataflow-job-cltv-4
+  args:
+  - dataflow
+  - sql
+  - query
+  - SELECT *, 4 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.15 and consumer_id < 0.2
+  - --job-name=cltv-4
+  - --pubsub-topic=trigger-topic-customerLifetimeValue
+  - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '900']
+
+- name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-5
   args:
   - dataflow
   - sql
   - query
-  - SELECT *, 5 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.25 and consumer_id < 0.3
+  - SELECT *, 5 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.2 and consumer_id < 0.25
   - --job-name=cltv-5
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-6
@@ -33,13 +89,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 6 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.3 and consumer_id < 0.35
+  - SELECT *, 6 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.25 and consumer_id < 0.3
   - --job-name=cltv-6
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-7
@@ -47,13 +103,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 7 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.35 and consumer_id < 0.4
+  - SELECT *, 7 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.3 and consumer_id < 0.35
   - --job-name=cltv-7
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-8
@@ -61,13 +117,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 8 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.4 and consumer_id < 0.45
+  - SELECT *, 8 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.35 and consumer_id < 0.4
   - --job-name=cltv-8
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-9
@@ -75,13 +131,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 9 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.45 and consumer_id < 0.5
+  - SELECT *, 9 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.4 and consumer_id < 0.45
   - --job-name=cltv-9
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-10
@@ -89,13 +145,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 10 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.5 and consumer_id < 0.55
+  - SELECT *, 10 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.45 and consumer_id < 0.5
   - --job-name=cltv-10
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-11
@@ -103,13 +159,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.55 and consumer_id < 0.6
+  - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.5 and consumer_id < 0.55
   - --job-name=cltv-11
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-12
@@ -117,13 +173,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.6 and consumer_id < 0.65
+  - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.55 and consumer_id < 0.6
   - --job-name=cltv-12
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-13
@@ -131,13 +187,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 13 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.65 and consumer_id < 0.7
+  - SELECT *, 13 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.6 and consumer_id < 0.65
   - --job-name=cltv-13
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-14
@@ -145,13 +201,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 14 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.7 and consumer_id < 0.75
+  - SELECT *, 14 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.65 and consumer_id < 0.7
   - --job-name=cltv-14
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-15
@@ -159,13 +215,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 15 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.75 and consumer_id < 0.8
+  - SELECT *, 15 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.7 and consumer_id < 0.75
   - --job-name=cltv-15
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-16
@@ -173,13 +229,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 16 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.8 and consumer_id < 0.85
+  - SELECT *, 16 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.75 and consumer_id < 0.8
   - --job-name=cltv-16
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-17
@@ -187,13 +243,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 17 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.85 and consumer_id < 0.9
+  - SELECT *, 17 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.8 and consumer_id < 0.85
   - --job-name=cltv-17
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-18
@@ -201,13 +257,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 18 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.9 and consumer_id < 0.95
+  - SELECT *, 18 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.85 and consumer_id < 0.9
   - --job-name=cltv-18
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-19
@@ -215,13 +271,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 19 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.95
+  - SELECT *, 19 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.9 and consumer_id < 0.95
   - --job-name=cltv-19
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '600']
+  args: ['sleep', '900']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-20
@@ -229,7 +285,7 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT *, 20 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.05 and consumer_id < 0.1
+  - SELECT *, 20 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id < 1.1
   - --job-name=cltv-20
   - --pubsub-topic=trigger-topic-customerLifetimeValue
   - --region=asia-southeast2
@@ -245,4 +301,4 @@ steps:
   - decryption-function
   - --region=asia-southeast2
 
-timeout: 36000s
+timeout: 39000s
