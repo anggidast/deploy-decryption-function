@@ -19,10 +19,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 20 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0 and rnd < 0.1
+  - SELECT *, 21 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id < 0.1
   - --job-name=cltv-prop-1
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-2
@@ -30,10 +33,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 21 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.1 and rnd < 0.2
+  - SELECT *, 22 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.1 and consumer_id < 0.2
   - --job-name=cltv-prop-2
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-3
@@ -41,10 +47,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 22 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.2 and rnd < 0.3
+  - SELECT *, 23 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.2 and consumer_id < 0.3
   - --job-name=cltv-prop-3
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-4
@@ -52,13 +61,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 23 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.3 and rnd < 0.4
+  - SELECT *, 24 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.3 and consumer_id < 0.4
   - --job-name=cltv-prop-4
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '900']
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-5
@@ -66,10 +75,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 24 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.4 and rnd < 0.5
+  - SELECT *, 25 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.4 and consumer_id < 0.5
   - --job-name=cltv-prop-5
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-6
@@ -77,10 +89,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 25 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.5 and rnd < 0.6
+  - SELECT *, 26 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.5 and consumer_id < 0.6
   - --job-name=cltv-prop-6
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-7
@@ -88,13 +103,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 26 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.6 and rnd < 0.7
+  - SELECT *, 27 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.6 and consumer_id < 0.7
   - --job-name=cltv-prop-7
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
 
 - name: 'ubuntu'
-  args: ['sleep', '900']
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-8
@@ -102,10 +117,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 27 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.7 and rnd < 0.8
+  - SELECT *, 28 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.7 and consumer_id < 0.8
   - --job-name=cltv-prop-8
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-9
@@ -113,10 +131,13 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 28 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.8 and rnd < 0.9
+  - SELECT *, 29 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.8 and consumer_id < 0.9
   - --job-name=cltv-prop-9
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
+
+- name: 'ubuntu'
+  args: ['sleep', '720']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: create-dataflow-job-cltv-prop-10
@@ -124,7 +145,7 @@ steps:
   - dataflow
   - sql
   - query
-  - SELECT * EXCEPT(rnd), 29 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_dev.cltv_propensity_prediction_rnd WHERE rnd >= 0.9
+  - SELECT *, 30 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction_consume WHERE consumer_id >= 0.9
   - --job-name=cltv-prop-10
   - --pubsub-topic=trigger-topic-customerLifetimeValueProp
   - --region=asia-southeast2
@@ -140,4 +161,4 @@ steps:
   - decryption-function
   - --region=asia-southeast2
 
-timeout: 7200s
+timeout: 36000s
