@@ -1,304 +1,625 @@
 steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: deploy-decryption-function
-  args:
-  - functions
-  - deploy
-  - decryption-function
-  - --runtime=python38
-  - --entry-point=hello_pubsub 
-  - --source=gs://test-decryption-function/source/source.zip
-  - --trigger-topic=trigger-topic-customerLifetimeValue
-  - --allow-unauthenticated
-  - --region=asia-southeast2
-  - --timeout=300s
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-1
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-1-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-1
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 1 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0 and consumer_id < 0.05
-  - --job-name=cltv-1
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-1
+    waitFor: ['create-topic-pub-1']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-1-sink-sub
+      - --topic=decrypt-test-1-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-2
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-2-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-2
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 2 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.0.5 and consumer_id < 0.1
-  - --job-name=cltv-2
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-2
+    waitFor: ['create-topic-pub-2']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-2-sink-sub
+      - --topic=decrypt-test-2-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-3
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-3-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-3
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 3 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.1 and consumer_id < 0.15
-  - --job-name=cltv-3
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-3
+    waitFor: ['create-topic-pub-3']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-3-sink-sub
+      - --topic=decrypt-test-3-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-4
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-4-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-4
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 4 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.15 and consumer_id < 0.2
-  - --job-name=cltv-4
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-4
+    waitFor: ['create-topic-pub-4']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-4-sink-sub
+      - --topic=decrypt-test-4-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-5
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-5-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-5
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 5 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.2 and consumer_id < 0.25
-  - --job-name=cltv-5
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-5
+    waitFor: ['create-topic-pub-5']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-5-sink-sub
+      - --topic=decrypt-test-5-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-6
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-6-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-6
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 6 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.25 and consumer_id < 0.3
-  - --job-name=cltv-6
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-6
+    waitFor: ['create-topic-pub-6']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-6-sink-sub
+      - --topic=decrypt-test-6-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-7
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-7-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-7
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 7 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.3 and consumer_id < 0.35
-  - --job-name=cltv-7
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-7
+    waitFor: ['create-topic-pub-7']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-7-sink-sub
+      - --topic=decrypt-test-7-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-8
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-8-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-8
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 8 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.35 and consumer_id < 0.4
-  - --job-name=cltv-8
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-8
+    waitFor: ['create-topic-pub-8']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-8-sink-sub
+      - --topic=decrypt-test-8-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-9
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-9-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-9
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 9 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.4 and consumer_id < 0.45
-  - --job-name=cltv-9
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-9
+    waitFor: ['create-topic-pub-9']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-9-sink-sub
+      - --topic=decrypt-test-9-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-10
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-10-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-10
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 10 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.45 and consumer_id < 0.5
-  - --job-name=cltv-10
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-10
+    waitFor: ['create-topic-pub-10']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-10-sink-sub
+      - --topic=decrypt-test-10-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-11
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-11-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-11
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.5 and consumer_id < 0.55
-  - --job-name=cltv-11
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-11
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-11-sink-sub
+      - --topic=decrypt-test-11-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-12
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-12-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-12
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.55 and consumer_id < 0.6
-  - --job-name=cltv-12
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-12
+    waitFor: ['create-topic-pub-12']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-12-sink-sub
+      - --topic=decrypt-test-12-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-13
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-13-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-13
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 13 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.6 and consumer_id < 0.65
-  - --job-name=cltv-13
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-13
+    waitFor: ['create-topic-pub-13']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-13-sink-sub
+      - --topic=decrypt-test-13-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-14
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-14-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-14
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 14 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.65 and consumer_id < 0.7
-  - --job-name=cltv-14
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-14
+    waitFor: ['create-topic-pub-14']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-14-sink-sub
+      - --topic=decrypt-test-14-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-15
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-15-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-15
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 15 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.7 and consumer_id < 0.75
-  - --job-name=cltv-15
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-15
+    waitFor: ['create-topic-pub-15']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-15-sink-sub
+      - --topic=decrypt-test-15-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-16
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-16-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-16
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 16 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.75 and consumer_id < 0.8
-  - --job-name=cltv-16
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-16
+    waitFor: ['create-topic-pub-16']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-16-sink-sub
+      - --topic=decrypt-test-16-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-17
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-17-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-17
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 17 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.8 and consumer_id < 0.85
-  - --job-name=cltv-17
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-17
+    waitFor: ['create-topic-pub-17']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-17-sink-sub
+      - --topic=decrypt-test-17-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-18
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-18-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-18
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 18 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.85 and consumer_id < 0.9
-  - --job-name=cltv-18
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-18
+    waitFor: ['create-topic-pub-18']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-18-sink-sub
+      - --topic=decrypt-test-18-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-19
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-19-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-19
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 19 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id >= 0.9 and consumer_id < 0.95
-  - --job-name=cltv-19
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-19
+    waitFor: ['create-topic-pub-19']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-19-sink-sub
+      - --topic=decrypt-test-19-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-20
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-20-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: create-dataflow-job-cltv-20
-  args:
-  - dataflow
-  - sql
-  - query
-  - SELECT *, 20 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml.cltv_calculation_table_rnd WHERE consumer_id < 1.1
-  - --job-name=cltv-20
-  - --pubsub-topic=trigger-topic-customerLifetimeValue
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-20
+    waitFor: ['create-topic-pub-20']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-20-sink-sub
+      - --topic=decrypt-test-20-sink
+      - --topic-project=crm-production-335312
 
-- name: 'ubuntu'
-  args: ['sleep', '900']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-21
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-21-sink
+      - --message-retention-duration=31d
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: delete-deployed-function
-  args:
-  - functions
-  - delete
-  - decryption-function
-  - --region=asia-southeast2
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-21
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-21-sink-sub
+      - --topic=decrypt-test-21-sink
+      - --topic-project=crm-production-335312
 
-timeout: 39000s
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-22
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-22-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-22
+    waitFor: ['create-topic-pub-22']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-22-sink-sub
+      - --topic=decrypt-test-22-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-23
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-23-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-23
+    waitFor: ['create-topic-pub-23']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-23-sink-sub
+      - --topic=decrypt-test-23-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-24
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-24-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-24
+    waitFor: ['create-topic-pub-24']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-24-sink-sub
+      - --topic=decrypt-test-24-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-25
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-25-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-25
+    waitFor: ['create-topic-pub-25']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-25-sink-sub
+      - --topic=decrypt-test-25-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-26
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-26-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-26
+    waitFor: ['create-topic-pub-26']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-26-sink-sub
+      - --topic=decrypt-test-26-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-27
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-27-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-27
+    waitFor: ['create-topic-pub-27']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-27-sink-sub
+      - --topic=decrypt-test-27-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-28
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-28-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-28
+    waitFor: ['create-topic-pub-28']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-28-sink-sub
+      - --topic=decrypt-test-28-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-29
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-29-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-29
+    waitFor: ['create-topic-pub-29']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-29-sink-sub
+      - --topic=decrypt-test-29-sink
+      - --topic-project=crm-production-335312
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-pub-30
+    waitFor: ['-']
+    args:
+      - pubsub
+      - topics
+      - create
+      - decrypt-test-30-sink
+      - --message-retention-duration=31d
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-topic-sub-30
+    waitFor: ['create-topic-pub-30']
+    args:
+      - pubsub
+      - subscriptions
+      - create
+      - decrypt-test-30-sink-sub
+      - --topic=decrypt-test-30-sink
+      - --topic-project=crm-production-335312
