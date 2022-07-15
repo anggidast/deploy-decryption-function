@@ -9,16 +9,6 @@ steps:
       - 'SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction WHERE original_timestamp > TIMESTAMP(DATETIME_SUB(DATETIME "2022-07-02 00:00:00", INTERVAL 2 DAY))'
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bq'
-    id: create-bq-cltv-calculation-table
-    waitFor: ['-']
-    args:
-      - query
-      - --destination_table=aixp_ml_prod.test_destination_cltv
-      - --use_legacy_sql=false
-      - 'SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp_ml_prod.cltv_calculation_table WHERE original_timestamp > TIMESTAMP(DATETIME_SUB(DATETIME "2022-07-02 00:00:00", INTERVAL 2 DAY))'
-
-  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-cltv-prop
     waitFor: ['-']
     args:
@@ -33,9 +23,103 @@ steps:
       - --region=asia-southeast2
       - --timeout=300s
 
+  - name: 'ubuntu'
+    args: ['sleep', '120']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-cltv-prop-1
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id < 0.25
+      - --job-name=cltv-prop-1
+      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-cltv-prop-2
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.25 and consumer_id < 0.5
+      - --job-name=cltv-prop-2
+      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-cltv-prop-3
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 13 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.5 and consumer_id < 0.75
+      - --job-name=cltv-prop-3
+      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-cltv-prop-4
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 14 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.75
+      - --job-name=cltv-prop-3
+      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-calculation-table
+    args:
+      - query
+      - --destination_table=aixp_ml_prod.test_destination_cltv
+      - --use_legacy_sql=false
+      - 'SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp_ml_prod.cltv_calculation_table WHERE original_timestamp > TIMESTAMP(DATETIME_SUB(DATETIME "2022-07-02 00:00:00", INTERVAL 2 DAY))'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-calculation-table-1
+    args:
+      - query
+      - --destination_table=aixp_ml_prod.test_destination_cltv_1
+      - --use_legacy_sql=false
+      - 'SELECT * FROM `crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id < 0.5'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-calculation-table-2
+    waitFor: ['create-bq-cltv-calculation-table']
+    args:
+      - query
+      - --destination_table=aixp_ml_prod.test_destination_cltv_2
+      - --use_legacy_sql=false
+      - 'SELECT * FROM `crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.5'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: delete-deployed-function-cltv-prop
+    args:
+      - functions
+      - delete
+      - decryption-function-cltv-prop
+      - --region=asia-southeast2
+
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-cltv
-    waitFor: ['-']
     args:
       - functions
       - deploy
@@ -49,18 +133,7 @@ steps:
       - --timeout=300s
 
   - name: 'ubuntu'
-    args: ['sleep', '60']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-cltv-prop-1
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id < 0.3
-      - --job-name=cltv-prop-1
-      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
-      - --region=asia-southeast2
+    args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-cltv-1
@@ -77,17 +150,6 @@ steps:
     args: ['sleep', '720']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-cltv-prop-2
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.3 and consumer_id < 0.6
-      - --job-name=cltv-prop-2
-      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
-      - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-cltv-2
     args:
       - dataflow
@@ -102,17 +164,6 @@ steps:
     args: ['sleep', '720']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-cltv-prop-3
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT *, 33 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.6
-      - --job-name=cltv-prop-3
-      - --pubsub-topic=trigger-topic-customerLifetimeValueProp
-      - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-cltv-3
     args:
       - dataflow
@@ -125,14 +176,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '720']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: delete-deployed-function-cltv-prop
-    args:
-      - functions
-      - delete
-      - decryption-function-cltv-prop
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-cltv-4
