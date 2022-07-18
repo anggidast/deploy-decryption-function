@@ -4,13 +4,48 @@ steps:
     id: create-bq-cltv-propensity-table
     args:
       - query
-      - --destination_table=aixp_experiment_prod.test_destination_cltv_prop
+      - --destination_table=aixp_test.test_destination_cltv_prop
       - --use_legacy_sql=false
       - 'SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp_experiment_prod.cltv_propensity_prediction WHERE original_timestamp > TIMESTAMP(DATETIME_SUB(DATETIME "2022-07-02 00:00:00", INTERVAL 2 DAY))'
 
   - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-propensity-table-1
+    args:
+      - query
+      - --destination_table=aixp_test.test_destination_cltv_prop_1
+      - --use_legacy_sql=false
+      - 'SELECT * FROM `crm-production-335312`.aixp_test.test_destination_cltv_prop WHERE consumer_id < 0.25'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-propensity-table-2
+    args:
+      - query
+      - --destination_table=aixp_test.test_destination_cltv_prop_2
+      - --use_legacy_sql=false
+      - 'SELECT * FROM `crm-production-335312`.aixp_test.test_destination_cltv_prop WHERE consumer_id >= 0.25 and consumer_id < 0.5'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-propensity-table-3
+    args:
+      - query
+      - --destination_table=aixp_test.test_destination_cltv_prop_3
+      - --use_legacy_sql=false
+      - 'SELECT * FROM `crm-production-335312`.aixp_test.test_destination_cltv_prop WHERE consumer_id >= 0.5 and consumer_id < 0.75'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-cltv-propensity-table-4
+    args:
+      - query
+      - --destination_table=aixp_test.test_destination_cltv_prop_4
+      - --use_legacy_sql=false
+      - 'SELECT * FROM `crm-production-335312`.aixp_test.test_destination_cltv_prop WHERE consumer_id >= 0.75'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-cltv-prop
-    waitFor: ['-']
     args:
       - functions
       - deploy
@@ -22,6 +57,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
+      - --memory=8192MB
 
   - name: 'ubuntu'
     args: ['sleep', '120']
@@ -32,7 +68,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id < 0.25
+      - SELECT *, 11 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv_prop_1
       - --job-name=cltv-prop-1
       - --pubsub-topic=trigger-topic-customerLifetimeValueProp
       - --region=asia-southeast2
@@ -46,7 +82,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.25 and consumer_id < 0.5
+      - SELECT *, 12 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv_prop_2
       - --job-name=cltv-prop-2
       - --pubsub-topic=trigger-topic-customerLifetimeValueProp
       - --region=asia-southeast2
@@ -60,7 +96,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 13 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.5 and consumer_id < 0.75
+      - SELECT *, 13 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv_prop_3
       - --job-name=cltv-prop-3
       - --pubsub-topic=trigger-topic-customerLifetimeValueProp
       - --region=asia-southeast2
@@ -74,7 +110,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 14 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_experiment_prod.test_destination_cltv_prop WHERE consumer_id >= 0.75
+      - SELECT *, 14 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv_prop_4
       - --job-name=cltv-prop-3
       - --pubsub-topic=trigger-topic-customerLifetimeValueProp
       - --region=asia-southeast2
@@ -87,7 +123,7 @@ steps:
     id: create-bq-cltv-calculation-table
     args:
       - query
-      - --destination_table=aixp_ml_prod.test_destination_cltv
+      - --destination_table=aixp_test.test_destination_cltv
       - --use_legacy_sql=false
       - 'SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp_ml_prod.cltv_calculation_table WHERE original_timestamp > TIMESTAMP(DATETIME_SUB(DATETIME "2022-07-02 00:00:00", INTERVAL 2 DAY))'
 
@@ -96,9 +132,9 @@ steps:
     id: create-bq-cltv-calculation-table-1
     args:
       - query
-      - --destination_table=aixp_ml_prod.test_destination_cltv_1
+      - --destination_table=aixp_test.test_destination_cltv_1
       - --use_legacy_sql=false
-      - 'SELECT * FROM `crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id < 0.5'
+      - 'SELECT * FROM `crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id < 0.5'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bq'
@@ -106,9 +142,9 @@ steps:
     waitFor: ['create-bq-cltv-calculation-table']
     args:
       - query
-      - --destination_table=aixp_ml_prod.test_destination_cltv_2
+      - --destination_table=aixp_test.test_destination_cltv_2
       - --use_legacy_sql=false
-      - 'SELECT * FROM `crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.5'
+      - 'SELECT * FROM `crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.5'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: delete-deployed-function-cltv-prop
@@ -131,6 +167,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
+      - --memory=8192MB
 
   - name: 'ubuntu'
     args: ['sleep', '120']
@@ -141,7 +178,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 1 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id < 0.1
+      - SELECT *, 1 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id < 0.1
       - --job-name=cltv-1
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -155,7 +192,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 2 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.1 and consumer_id < 0.2
+      - SELECT *, 2 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.1 and consumer_id < 0.2
       - --job-name=cltv-2
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -169,7 +206,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 3 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.2 and consumer_id < 0.3
+      - SELECT *, 3 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.2 and consumer_id < 0.3
       - --job-name=cltv-3
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -183,7 +220,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 4 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.3 and consumer_id < 0.4
+      - SELECT *, 4 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.3 and consumer_id < 0.4
       - --job-name=cltv-4
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -197,7 +234,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 5 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.4 and consumer_id < 0.5
+      - SELECT *, 5 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.4 and consumer_id < 0.5
       - --job-name=cltv-5
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -211,7 +248,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 6 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.5 and consumer_id < 0.6
+      - SELECT *, 6 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.5 and consumer_id < 0.6
       - --job-name=cltv-6
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -225,7 +262,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 7 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.6 and consumer_id < 0.7
+      - SELECT *, 7 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.6 and consumer_id < 0.7
       - --job-name=cltv-7
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -239,7 +276,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 8 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.7 and consumer_id < 0.8
+      - SELECT *, 8 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.7 and consumer_id < 0.8
       - --job-name=cltv-8
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -253,7 +290,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 9 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.8 and consumer_id < 0.9
+      - SELECT *, 9 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.8 and consumer_id < 0.9
       - --job-name=cltv-9
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
@@ -267,7 +304,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 10 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_ml_prod.test_destination_cltv WHERE consumer_id >= 0.9
+      - SELECT *, 10 AS batch, ['nik', 'nik_or_phone', 'phone_number'] AS encrypted_cols, ['original_timestamp'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_test.test_destination_cltv WHERE consumer_id >= 0.9
       - --job-name=cltv-10
       - --pubsub-topic=trigger-topic-customerLifetimeValue
       - --region=asia-southeast2
