@@ -57,7 +57,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=8192MB
+      - --memory=1024MB
 
   - name: 'ubuntu'
     args: ['sleep', '120']
@@ -167,7 +167,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=8192MB
+      - --memory=1024MB
 
   - name: 'ubuntu'
     args: ['sleep', '120']
