@@ -13,7 +13,6 @@ table_name = 'passion'
 topic_sink = ''
 encrypted_cols = []
 date_cols = []
-batch = 1
 publisher = pubsub_v1.PublisherClient()
 
 def hello_pubsub(event, context):
@@ -27,8 +26,7 @@ def hello_pubsub(event, context):
     data = json.loads(payload)
     globals()['encrypted_cols'] = data['encrypted_cols']
     globals()['date_cols'] = data['date_cols']
-    globals()['batch'] = data['batch']
-    globals()['topic_sink'] = 'decrypt-%s-%s-sink' %(table_name, batch)
+    globals()['topic_sink'] = 'decrypt-%s-sink' %table_name
 
     for col in date_cols:
         if data[col] is not None:
