@@ -1,0 +1,45 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-function-1
+    args:
+      - functions
+      - deploy
+      - test-function-1
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiEmasOpen
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '10']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-function-2
+    args:
+      - functions
+      - deploy
+      - test-function-1
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiEmasBuy
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - functions
+      - delete
+      - test-function-1
+      - --region=asia-southeast2
+
+timeout: 36000s
