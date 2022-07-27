@@ -23,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranAngsuran WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiAngsuranAngsuran' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranAngsuran WHERE import_date > '2022-07-01'
       - --job-name=transaksiangsuranangsuran-job
       - --pubsub-topic=trigger-topic-transaksiAngsuranAngsuran
       - --region=asia-southeast2
@@ -62,7 +62,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPelunasan WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiAngsuranPelunasan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPelunasan WHERE import_date > '2022-07-01'
       - --job-name=transaksiangsuranpelunasan-job
       - --pubsub-topic=trigger-topic-transaksiAngsuranPelunasan
       - --region=asia-southeast2
@@ -101,7 +101,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPencairan WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiAngsuranPencairan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPencairan WHERE import_date > '2022-07-01'
       - --job-name=transaksiangsuranpencairan-job
       - --pubsub-topic=trigger-topic-transaksiAngsuranPencairan
       - --region=asia-southeast2
@@ -140,7 +140,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiBermasalah WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiBermasalah' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiBermasalah WHERE import_date > '2022-07-01'
       - --job-name=transaksibermasalah-job
       - --pubsub-topic=trigger-topic-transaksiBermasalah
       - --region=asia-southeast2
@@ -179,7 +179,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasOpen WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiEmasOpen' AS table_name, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasOpen WHERE import_date > '2022-07-01'
       - --job-name=transaksiemasopen-job
       - --pubsub-topic=trigger-topic-transaksiEmasOpen
       - --region=asia-southeast2
@@ -218,7 +218,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasOrder WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiEmasOrder' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasOrder WHERE import_date > '2022-07-01'
       - --job-name=transaksiemasorder-job
       - --pubsub-topic=trigger-topic-transaksiEmasOrder
       - --region=asia-southeast2
@@ -257,7 +257,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasPYMTAIN WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiEmasPYMTAIN' AS table_name, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasPYMTAIN WHERE import_date > '2022-07-01'
       - --job-name=transaksiemaspymtain-job
       - --pubsub-topic=trigger-topic-transaksiEmasPYMTAIN
       - --region=asia-southeast2
@@ -296,7 +296,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasReprint WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiEmasReprint' AS table_name, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasReprint WHERE import_date > '2022-07-01'
       - --job-name=transaksiemasreprint-job
       - --pubsub-topic=trigger-topic-transaksiEmasReprint
       - --region=asia-southeast2
@@ -335,7 +335,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasTransfer WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiEmasTransfer' AS table_name, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasTransfer WHERE import_date > '2022-07-01'
       - --job-name=transaksiemastransfer-job
       - --pubsub-topic=trigger-topic-transaksiEmasTransfer
       - --region=asia-southeast2
@@ -374,7 +374,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranCicil WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiNonAngsuranCicil' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranCicil WHERE import_date > '2022-07-01'
       - --job-name=transaksinonangsurancicil-job
       - --pubsub-topic=trigger-topic-transaksiNonAngsuranCicil
       - --region=asia-southeast2
@@ -413,7 +413,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranMintaTambah WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiNonAngsuranMintaTambah' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranMintaTambah WHERE import_date > '2022-07-01'
       - --job-name=transaksinonangsuranmintatambah-job
       - --pubsub-topic=trigger-topic-transaksiNonAngsuranMintaTambah
       - --region=asia-southeast2
@@ -452,7 +452,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranPencairan WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiNonAngsuranPencairan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranPencairan WHERE import_date > '2022-07-01'
       - --job-name=transaksinonangsuranpencairan-job
       - --pubsub-topic=trigger-topic-transaksiNonAngsuranPencairan
       - --region=asia-southeast2
@@ -491,7 +491,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranUlangGadai WHERE import_date > '2022-07-01'
+      - SELECT *, 'transaksiNonAngsuranUlangGadai' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranUlangGadai WHERE import_date > '2022-07-01'
       - --job-name=transaksinonangsuranulanggadai-job
       - --pubsub-topic=trigger-topic-transaksiNonAngsuranUlangGadai
       - --region=asia-southeast2
