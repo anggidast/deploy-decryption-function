@@ -15,7 +15,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-barangLelang
@@ -30,13 +30,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-contact
@@ -54,7 +47,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-contact
@@ -69,13 +62,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-geography
@@ -93,7 +79,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-geography
@@ -108,13 +94,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-historiTransaksi
@@ -132,7 +111,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-historiTransaksi
@@ -147,13 +126,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '900']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-identity
@@ -171,7 +143,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-identity
@@ -186,13 +158,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '720']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-lifestyle
@@ -210,7 +175,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-lifestyle
@@ -225,13 +190,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '720']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-profile
@@ -249,7 +207,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-profile
@@ -264,13 +222,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-promotion
@@ -288,7 +239,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-promotion
@@ -303,13 +254,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '300']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-status
@@ -327,7 +271,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-status
@@ -342,13 +286,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-value
@@ -366,7 +303,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-value
@@ -381,13 +318,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-valueEmas
@@ -405,7 +335,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-valueEmas
@@ -420,13 +350,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-work
@@ -444,7 +367,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-work
@@ -459,13 +382,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-workAndBusiness
@@ -483,7 +399,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-workAndBusiness

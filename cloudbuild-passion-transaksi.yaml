@@ -1,5 +1,133 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-transaksiAngsuranAngsuran
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiAngsuranAngsuran
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-transaksiAngsuranAngsuran
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiAngsuranAngsuran' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranAngsuran WHERE import_date > '2022-07-01'
+      - --job-name=transaksiangsuranangsuran-job
+      - --pubsub-topic=trigger-topic-transaksiAngsuranAngsuran
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '600']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-transaksiAngsuranPelunasan
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiAngsuranPelunasan
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-transaksiAngsuranPelunasan
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiAngsuranPelunasan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPelunasan WHERE import_date > '2022-07-01'
+      - --job-name=transaksiangsuranpelunasan-job
+      - --pubsub-topic=trigger-topic-transaksiAngsuranPelunasan
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '600']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-transaksiAngsuranPencairan
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiAngsuranPencairan
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-transaksiAngsuranPencairan
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiAngsuranPencairan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPencairan WHERE import_date > '2022-07-01'
+      - --job-name=transaksiangsuranpencairan-job
+      - --pubsub-topic=trigger-topic-transaksiAngsuranPencairan
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '600']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-transaksiBermasalah
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiBermasalah
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-transaksiBermasalah
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiBermasalah' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiBermasalah WHERE import_date > '2022-07-01'
+      - --job-name=transaksibermasalah-job
+      - --pubsub-topic=trigger-topic-transaksiBermasalah
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '900']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiEmasOpen
     args:
       - functions
@@ -15,7 +143,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiEmasOpen
@@ -30,13 +158,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '720']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiEmasOrder
@@ -54,7 +175,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiEmasOrder
@@ -69,13 +190,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiEmasPYMTAIN
@@ -93,7 +207,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiEmasPYMTAIN
@@ -108,13 +222,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '300']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiEmasReprint
@@ -132,7 +239,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiEmasReprint
@@ -147,13 +254,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiEmasTransfer
@@ -171,7 +271,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiEmasTransfer
@@ -186,13 +286,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiNonAngsuranCicil
@@ -210,7 +303,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiNonAngsuranCicil
@@ -225,13 +318,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiNonAngsuranMintaTambah
@@ -249,7 +335,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiNonAngsuranMintaTambah
@@ -264,13 +350,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiNonAngsuranPencairan
@@ -288,7 +367,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiNonAngsuranPencairan
@@ -303,13 +382,6 @@ steps:
 
   - name: 'ubuntu'
     args: ['sleep', '600']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiNonAngsuranUlangGadai
@@ -327,7 +399,7 @@ steps:
       - --memory=1024MB
 
   - name: 'ubuntu'
-    args: ['sleep', '120']
+    args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: create-dataflow-job-passion-transaksiNonAngsuranUlangGadai
