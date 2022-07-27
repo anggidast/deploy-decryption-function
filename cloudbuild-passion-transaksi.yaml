@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-barangLelang
+    id: deploy-decryption-function-passion-transaksiAngsuranAngsuran
     args:
       - functions
       - deploy
@@ -8,7 +8,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-barangLelang
+      - --trigger-topic=trigger-topic-transaksiAngsuranAngsuran
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -18,14 +18,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-barangLelang
+    id: create-dataflow-job-passion-transaksiAngsuranAngsuran
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang WHERE import_date > '2022-07-01'
-      - --job-name=barang-lelang-job
-      - --pubsub-topic=trigger-topic-barangLelang
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranAngsuran WHERE import_date > '2022-07-01'
+      - --job-name=transaksiangsuranangsuran-job
+      - --pubsub-topic=trigger-topic-transaksiAngsuranAngsuran
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -39,7 +39,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-contact
+    id: deploy-decryption-function-passion-transaksiAngsuranPelunasan
     args:
       - functions
       - deploy
@@ -47,7 +47,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-contact
+      - --trigger-topic=trigger-topic-transaksiAngsuranPelunasan
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -57,14 +57,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-contact
+    id: create-dataflow-job-passion-transaksiAngsuranPelunasan
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact WHERE import_date > '2022-07-01'
-      - --job-name=contact-job
-      - --pubsub-topic=trigger-topic-contact
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPelunasan WHERE import_date > '2022-07-01'
+      - --job-name=transaksiangsuranpelunasan-job
+      - --pubsub-topic=trigger-topic-transaksiAngsuranPelunasan
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -78,7 +78,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-geography
+    id: deploy-decryption-function-passion-transaksiAngsuranPencairan
     args:
       - functions
       - deploy
@@ -86,7 +86,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-geography
+      - --trigger-topic=trigger-topic-transaksiAngsuranPencairan
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -96,14 +96,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-geography
+    id: create-dataflow-job-passion-transaksiAngsuranPencairan
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography WHERE import_date > '2022-07-01'
-      - --job-name=geography-job
-      - --pubsub-topic=trigger-topic-geography
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiAngsuranPencairan WHERE import_date > '2022-07-01'
+      - --job-name=transaksiangsuranpencairan-job
+      - --pubsub-topic=trigger-topic-transaksiAngsuranPencairan
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -117,7 +117,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-historiTransaksi
+    id: deploy-decryption-function-passion-transaksiBermasalah
     args:
       - functions
       - deploy
@@ -125,7 +125,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-historiTransaksi
+      - --trigger-topic=trigger-topic-transaksiBermasalah
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -135,14 +135,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-historiTransaksi
+    id: create-dataflow-job-passion-transaksiBermasalah
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi WHERE import_date > '2022-07-01'
-      - --job-name=histori-transaksi-job
-      - --pubsub-topic=trigger-topic-historiTransaksi
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiBermasalah WHERE import_date > '2022-07-01'
+      - --job-name=transaksibermasalah-job
+      - --pubsub-topic=trigger-topic-transaksiBermasalah
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -156,7 +156,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-identity
+    id: deploy-decryption-function-passion-transaksiEmasOpen
     args:
       - functions
       - deploy
@@ -164,7 +164,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-identity
+      - --trigger-topic=trigger-topic-transaksiEmasOpen
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -174,14 +174,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-identity
+    id: create-dataflow-job-passion-transaksiEmasOpen
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > '2022-07-01'
-      - --job-name=identity-job
-      - --pubsub-topic=trigger-topic-identity
+      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasOpen WHERE import_date > '2022-07-01'
+      - --job-name=transaksiemasopen-job
+      - --pubsub-topic=trigger-topic-transaksiEmasOpen
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -195,7 +195,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-lifestyle
+    id: deploy-decryption-function-passion-transaksiEmasOrder
     args:
       - functions
       - deploy
@@ -203,7 +203,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-lifestyle
+      - --trigger-topic=trigger-topic-transaksiEmasOrder
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -213,53 +213,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-lifestyle
+    id: create-dataflow-job-passion-transaksiEmasOrder
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle WHERE import_date > '2022-07-01'
-      - --job-name=lifestyle-job
-      - --pubsub-topic=trigger-topic-lifestyle
-      - --region=asia-southeast2
-
-  - name: 'ubuntu'
-    args: ['sleep', '720']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - functions
-      - delete
-      - decryption-function-passion
-      - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-profile
-    args:
-      - functions
-      - deploy
-      - decryption-function-passion
-      - --runtime=python38
-      - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-profile
-      - --allow-unauthenticated
-      - --region=asia-southeast2
-      - --timeout=300s
-      - --memory=1024MB
-
-  - name: 'ubuntu'
-    args: ['sleep', '120']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-profile
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT *, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile WHERE import_date > '2022-07-01'
-      - --job-name=profile-job
-      - --pubsub-topic=trigger-topic-profile
+      - SELECT *, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasOrder WHERE import_date > '2022-07-01'
+      - --job-name=transaksiemasorder-job
+      - --pubsub-topic=trigger-topic-transaksiEmasOrder
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -273,7 +234,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-promotion
+    id: deploy-decryption-function-passion-transaksiEmasPYMTAIN
     args:
       - functions
       - deploy
@@ -281,7 +242,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-promotion
+      - --trigger-topic=trigger-topic-transaksiEmasPYMTAIN
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -291,14 +252,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-promotion
+    id: create-dataflow-job-passion-transaksiEmasPYMTAIN
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.promotion WHERE import_date > '2022-07-01'
-      - --job-name=promotion-job
-      - --pubsub-topic=trigger-topic-promotion
+      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasPYMTAIN WHERE import_date > '2022-07-01'
+      - --job-name=transaksiemaspymtain-job
+      - --pubsub-topic=trigger-topic-transaksiEmasPYMTAIN
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -312,7 +273,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-status
+    id: deploy-decryption-function-passion-transaksiEmasReprint
     args:
       - functions
       - deploy
@@ -320,7 +281,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-status
+      - --trigger-topic=trigger-topic-transaksiEmasReprint
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -330,14 +291,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-status
+    id: create-dataflow-job-passion-transaksiEmasReprint
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > '2022-07-01'
-      - --job-name=status-job
-      - --pubsub-topic=trigger-topic-status
+      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasReprint WHERE import_date > '2022-07-01'
+      - --job-name=transaksiemasreprint-job
+      - --pubsub-topic=trigger-topic-transaksiEmasReprint
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -351,7 +312,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-value
+    id: deploy-decryption-function-passion-transaksiEmasTransfer
     args:
       - functions
       - deploy
@@ -359,7 +320,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-value
+      - --trigger-topic=trigger-topic-transaksiEmasTransfer
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -369,14 +330,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-value
+    id: create-dataflow-job-passion-transaksiEmasTransfer
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > '2022-07-01'
-      - --job-name=value-job
-      - --pubsub-topic=trigger-topic-value
+      - SELECT *, ['nik','phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiEmasTransfer WHERE import_date > '2022-07-01'
+      - --job-name=transaksiemastransfer-job
+      - --pubsub-topic=trigger-topic-transaksiEmasTransfer
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -390,7 +351,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-valueEmas
+    id: deploy-decryption-function-passion-transaksiNonAngsuranCicil
     args:
       - functions
       - deploy
@@ -398,7 +359,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-valueEmas
+      - --trigger-topic=trigger-topic-transaksiNonAngsuranCicil
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -408,14 +369,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-valueEmas
+    id: create-dataflow-job-passion-transaksiNonAngsuranCicil
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas WHERE import_date > '2022-07-01'
-      - --job-name=value-emas-job
-      - --pubsub-topic=trigger-topic-valueEmas
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranCicil WHERE import_date > '2022-07-01'
+      - --job-name=transaksinonangsurancicil-job
+      - --pubsub-topic=trigger-topic-transaksiNonAngsuranCicil
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -429,7 +390,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-work
+    id: deploy-decryption-function-passion-transaksiNonAngsuranMintaTambah
     args:
       - functions
       - deploy
@@ -437,7 +398,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-work
+      - --trigger-topic=trigger-topic-transaksiNonAngsuranMintaTambah
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -447,14 +408,14 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-work
+    id: create-dataflow-job-passion-transaksiNonAngsuranMintaTambah
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > '2022-07-01'
-      - --job-name=work-job
-      - --pubsub-topic=trigger-topic-work
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranMintaTambah WHERE import_date > '2022-07-01'
+      - --job-name=transaksinonangsuranmintatambah-job
+      - --pubsub-topic=trigger-topic-transaksiNonAngsuranMintaTambah
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -468,7 +429,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-workAndBusiness
+    id: deploy-decryption-function-passion-transaksiNonAngsuranPencairan
     args:
       - functions
       - deploy
@@ -476,7 +437,7 @@ steps:
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-workAndBusiness
+      - --trigger-topic=trigger-topic-transaksiNonAngsuranPencairan
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
@@ -486,14 +447,53 @@ steps:
     args: ['sleep', '120']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-workAndBusiness
+    id: create-dataflow-job-passion-transaksiNonAngsuranPencairan
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > '2022-07-01'
-      - --job-name=work-and-business-job
-      - --pubsub-topic=trigger-topic-workAndBusiness
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranPencairan WHERE import_date > '2022-07-01'
+      - --job-name=transaksinonangsuranpencairan-job
+      - --pubsub-topic=trigger-topic-transaksiNonAngsuranPencairan
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '600']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - functions
+      - delete
+      - decryption-function-passion
+      - --region=asia-southeast2
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-transaksiNonAngsuranUlangGadai
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-transaksiNonAngsuranUlangGadai
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=1024MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '120']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-transaksiNonAngsuranUlangGadai
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranUlangGadai WHERE import_date > '2022-07-01'
+      - --job-name=transaksinonangsuranulanggadai-job
+      - --pubsub-topic=trigger-topic-transaksiNonAngsuranUlangGadai
       - --region=asia-southeast2
 
   - name: 'ubuntu'
