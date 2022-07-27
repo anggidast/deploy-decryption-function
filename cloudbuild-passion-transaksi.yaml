@@ -4,7 +4,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -36,7 +36,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -68,7 +68,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -100,7 +100,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -132,7 +132,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -164,7 +164,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -196,7 +196,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -228,7 +228,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -260,7 +260,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -292,7 +292,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -324,7 +324,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -356,7 +356,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -388,7 +388,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -419,7 +419,7 @@ steps:
     args:
       - functions
       - delete
-      - decryption-function-passion
+      - decryption-function-passion-transaksi
       - --region=asia-southeast2
 
 timeout: 36000s
