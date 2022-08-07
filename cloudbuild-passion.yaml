@@ -12,7 +12,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -23,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'barangLelang' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang WHERE import_date > '2022-07-01'
+      - SELECT *, 'barangLelang' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang WHERE import_date > '2022-07-27'
       - --job-name=barang-lelang-job
       - --pubsub-topic=trigger-topic-barangLelang
       - --region=asia-southeast2
@@ -44,7 +44,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -55,7 +55,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'contact' AS table_name, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact WHERE import_date > '2022-07-01'
+      - SELECT *, 'contact' AS table_name, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact WHERE import_date > '2022-07-27'
       - --job-name=contact-job
       - --pubsub-topic=trigger-topic-contact
       - --region=asia-southeast2
@@ -76,7 +76,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -87,7 +87,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'geography' AS table_name, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography WHERE import_date > '2022-07-01'
+      - SELECT *, 'geography' AS table_name, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography WHERE import_date > '2022-07-27'
       - --job-name=geography-job
       - --pubsub-topic=trigger-topic-geography
       - --region=asia-southeast2
@@ -108,7 +108,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -119,13 +119,13 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'historiTransaksi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi WHERE import_date > '2022-07-01'
+      - SELECT *, 'historiTransaksi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi WHERE import_date > '2022-07-27'
       - --job-name=histori-transaksi-job
       - --pubsub-topic=trigger-topic-historiTransaksi
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '600']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-identity
@@ -140,7 +140,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -151,13 +151,13 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > '2022-07-01'
+      - SELECT *, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > '2022-07-27'
       - --job-name=identity-job
       - --pubsub-topic=trigger-topic-identity
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '720']
+    args: ['sleep', '600']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-lifestyle
@@ -172,7 +172,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -183,13 +183,13 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'lifestyle' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle WHERE import_date > '2022-07-01'
+      - SELECT *, 'lifestyle' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle WHERE import_date > '2022-07-27'
       - --job-name=lifestyle-job
       - --pubsub-topic=trigger-topic-lifestyle
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '720']
+    args: ['sleep', '600']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-profile
@@ -204,7 +204,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -215,7 +215,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'profile' AS table_name, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile WHERE import_date > '2022-07-01'
+      - SELECT *, 'profile' AS table_name, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile WHERE import_date > '2022-07-27'
       - --job-name=profile-job
       - --pubsub-topic=trigger-topic-profile
       - --region=asia-southeast2
@@ -236,7 +236,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -247,13 +247,13 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'promotion' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.promotion WHERE import_date > '2022-07-01'
+      - SELECT *, 'promotion' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.promotion WHERE import_date > '2022-07-27'
       - --job-name=promotion-job
       - --pubsub-topic=trigger-topic-promotion
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '300']
+    args: ['sleep', '600']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-status
@@ -268,7 +268,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -279,9 +279,41 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > '2022-07-01'
+      - SELECT *, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > '2022-07-27'
       - --job-name=status-job
       - --pubsub-topic=trigger-topic-status
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '600']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-statusBjdpl
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-statusBjdpl
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=512MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-statusBjdpl
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'statusBjdpl' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.statusBjdpl WHERE import_date > '2022-07-28'
+      - --job-name=statusbjdpl-job
+      - --pubsub-topic=trigger-topic-statusBjdpl
       - --region=asia-southeast2
 
   - name: 'ubuntu'
@@ -300,7 +332,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -311,7 +343,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > '2022-07-01'
+      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > '2022-07-27'
       - --job-name=value-job
       - --pubsub-topic=trigger-topic-value
       - --region=asia-southeast2
@@ -332,7 +364,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -343,7 +375,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'valueEmas' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas WHERE import_date > '2022-07-01'
+      - SELECT *, 'valueEmas' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas WHERE import_date > '2022-07-27'
       - --job-name=value-emas-job
       - --pubsub-topic=trigger-topic-valueEmas
       - --region=asia-southeast2
@@ -364,7 +396,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -375,7 +407,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > '2022-07-01'
+      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > '2022-07-27'
       - --job-name=work-job
       - --pubsub-topic=trigger-topic-work
       - --region=asia-southeast2
@@ -396,7 +428,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=1024MB
+      - --memory=512MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -407,7 +439,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'workAndBusiness' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > '2022-07-01'
+      - SELECT *, 'workAndBusiness' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > '2022-07-27'
       - --job-name=work-and-business-job
       - --pubsub-topic=trigger-topic-workAndBusiness
       - --region=asia-southeast2
