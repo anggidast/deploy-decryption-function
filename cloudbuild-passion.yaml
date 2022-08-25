@@ -29,7 +29,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-behaviour
@@ -61,7 +61,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '1200']
+    args: ['sleep', '1800']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-contact
@@ -93,7 +93,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-geography
@@ -125,7 +125,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-historiTransaksi
@@ -157,7 +157,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-identity
@@ -189,7 +189,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-lifestyle
@@ -221,7 +221,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-produkAktif
@@ -285,7 +285,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-promotion
@@ -317,7 +317,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-status
@@ -349,7 +349,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-statusBjdpl
@@ -381,7 +381,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-value
@@ -413,7 +413,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-valueEmas
@@ -445,7 +445,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-work
@@ -477,7 +477,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-workAndBusiness
@@ -509,7 +509,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '600']
+    args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
