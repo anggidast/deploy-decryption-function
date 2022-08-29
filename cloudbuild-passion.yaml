@@ -35,42 +35,10 @@ steps:
       - query
       - --destination_table=aixp.behaviour_consume
       - --use_legacy_sql=false
-      - SELECT *, 'behaviour' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_jadi_nasabah', 'tanggal_pembaruan_data_nasabah'] AS date_cols FROM `crm-production-335312`.aixp.behaviour WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - SELECT * FROM `crm-production-335312`.aixp.behaviour WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
 
   - name: 'ubuntu'
     args: ['sleep', '900']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-behaviour
-    args:
-      - functions
-      - deploy
-      - decryption-function-passion
-      - --runtime=python38
-      - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-behaviour
-      - --allow-unauthenticated
-      - --region=asia-southeast2
-      - --timeout=300s
-      - --memory=512MB
-
-  - name: 'ubuntu'
-    args: ['sleep', '30']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-behaviour
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT * FROM bigquery.table.`crm-production-335312`.aixp.behaviour_consume
-      - --job-name=behaviour-job
-      - --pubsub-topic=trigger-topic-behaviour
-      - --region=asia-southeast2
-
-  - name: 'ubuntu'
-    args: ['sleep', '1800']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-contact
