@@ -14,6 +14,36 @@ steps:
       - --timeout=300s
       - --memory=512MB
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-behaviour-consume-table
+    args:
+      - query
+      - --destination_table=aixp.behaviour_consume
+      - --use_legacy_sql=false
+      - SELECT * FROM `crm-production-335312`.aixp.behaviour WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-geography-consume-table
+    args:
+      - query
+      - --destination_table=aixp.geography_consume
+      - --use_legacy_sql=false
+      - SELECT * FROM `crm-production-335312`.aixp.geography WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-produkAktif-consume-table
+    args:
+      - query
+      - --destination_table=aixp.produkAktif_consume
+      - --use_legacy_sql=false
+      - SELECT * FROM `crm-production-335312`.aixp.produkAktif WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+
   - name: 'ubuntu'
     args: ['sleep', '30']
 
@@ -27,15 +57,6 @@ steps:
       - --job-name=barang-lelang-job
       - --pubsub-topic=trigger-topic-barangLelang
       - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bq'
-    id: create-bq-behaviour-consume-table
-    args:
-      - query
-      - --destination_table=aixp.behaviour_consume
-      - --use_legacy_sql=false
-      - SELECT * FROM `crm-production-335312`.aixp.behaviour WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
 
   - name: 'ubuntu'
     args: ['sleep', '900']
@@ -128,7 +149,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'geography' AS table_name, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - SELECT *, 'geography' AS table_name, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_consume
       - --job-name=geography-job
       - --pubsub-topic=trigger-topic-geography
       - --region=asia-southeast2
@@ -256,7 +277,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'produkAktif' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.produkAktif WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - SELECT *, 'produkAktif' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.produkAktif_consume
       - --job-name=produkaktif-job
       - --pubsub-topic=trigger-topic-produkAktif
       - --region=asia-southeast2
@@ -521,6 +542,7 @@ steps:
     args: ['sleep', '900']
 
   - name: 'gcr.io/cloud-builders/gcloud'
+    id: delete-deployed-function
     args:
       - functions
       - delete
@@ -534,5 +556,23 @@ steps:
       - query
       - --use_legacy_sql=false
       - DROP TABLE `crm-production-335312`.aixp.behaviour_consume
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['delete-deployed-function']
+    entrypoint: 'bq'
+    id: delete-bq-geography-consume-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.geography_consume
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['delete-deployed-function']
+    entrypoint: 'bq'
+    id: delete-bq-produkAktif-consume-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.produkAktif_consume
 
 timeout: 36000s

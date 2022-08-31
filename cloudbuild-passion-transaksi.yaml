@@ -445,7 +445,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1200']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-transaksiNonAngsuranTebus
@@ -509,7 +509,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1200']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
