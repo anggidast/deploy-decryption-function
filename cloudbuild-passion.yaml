@@ -1,20 +1,5 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: deploy-decryption-function-passion-barangLelang
-    args:
-      - functions
-      - deploy
-      - decryption-function-passion
-      - --runtime=python38
-      - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/passion/source-passion.zip
-      - --trigger-topic=trigger-topic-barangLelang
-      - --allow-unauthenticated
-      - --region=asia-southeast2
-      - --timeout=300s
-      - --memory=512MB
-
-  - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
     entrypoint: 'bq'
     id: create-bq-behaviour-consume-table
@@ -48,20 +33,6 @@ steps:
     args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-barangLelang
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT *, 'barangLelang' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
-      - --job-name=barang-lelang-job
-      - --pubsub-topic=trigger-topic-barangLelang
-      - --region=asia-southeast2
-
-  - name: 'ubuntu'
-    args: ['sleep', '900']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-behaviour
     args:
       - functions
@@ -91,7 +62,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-contact
@@ -123,7 +94,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-geography
@@ -187,7 +158,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-identity
@@ -219,7 +190,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-lifestyle
@@ -251,7 +222,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-produkAktif
@@ -315,7 +286,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-promotion
@@ -347,7 +318,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-status
@@ -379,7 +350,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-statusBjdpl
@@ -411,7 +382,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-value
@@ -443,7 +414,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-valueEmas
@@ -475,7 +446,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-work
@@ -507,7 +478,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-workAndBusiness
@@ -539,7 +510,7 @@ steps:
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '900']
+    args: ['sleep', '1000']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: delete-deployed-function
