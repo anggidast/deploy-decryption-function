@@ -1,0 +1,105 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-selena-dashboardSalesPipelineKeputusan
+    args:
+      - functions
+      - deploy
+      - decryption-function-selena
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/selena/source-selena.zip
+      - --trigger-topic=trigger-topic-dashboardSalesPipelineKeputusan
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=512MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-dashboardSalesPipelineKeputusan
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiSelena' AS table_name, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan
+      - --job-name=dashboardsalespipelinekeputusan-job
+      - --pubsub-topic=trigger-topic-dashboardSalesPipelineKeputusan
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '300']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-selena-dashboardSalesPipelineMaster
+    args:
+      - functions
+      - deploy
+      - decryption-function-selena
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/selena/source-selena.zip
+      - --trigger-topic=trigger-topic-dashboardSalesPipelineMaster
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=512MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-dashboardSalesPipelineMaster
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiSelena' AS table_name, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster
+      - --job-name=dashboardsalespipelinemaster-job
+      - --pubsub-topic=trigger-topic-dashboardSalesPipelineMaster
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '300']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-selena-dashboardSalesPipelineMetode
+    args:
+      - functions
+      - deploy
+      - decryption-function-selena
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/selena/source-selena.zip
+      - --trigger-topic=trigger-topic-dashboardSalesPipelineMetode
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=512MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-dashboardSalesPipelineMetode
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'transaksiSelena' AS table_name, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode
+      - --job-name=dashboardsalespipelinemetode-job
+      - --pubsub-topic=trigger-topic-dashboardSalesPipelineMetode
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '600']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - functions
+      - delete
+      - decryption-function-selena
+      - --region=asia-southeast2
+
+timeout: 3600s
