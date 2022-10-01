@@ -14,6 +14,36 @@ steps:
       - --timeout=300s
       - --memory=512MB
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-dashboardSalesPipelineKeputusan-with-id-table
+    args:
+      - query
+      - --destination_table=aixp.dashboardSalesPipelineKeputusan_with_id
+      - --use_legacy_sql=false
+      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineKeputusan`
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-dashboardSalesPipelineMaster-with-id-table
+    args:
+      - query
+      - --destination_table=aixp.dashboardSalesPipelineMaster_with_id
+      - --use_legacy_sql=false
+      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMaster`
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-dashboardSalesPipelineMetode-with-id-table
+    args:
+      - query
+      - --destination_table=aixp.dashboardSalesPipelineMetode_with_id
+      - --use_legacy_sql=false
+      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMetode`
+
   - name: 'ubuntu'
     args: ['sleep', '30']
 
@@ -23,13 +53,13 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name, ['nik'] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan
+      - SELECT *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan_with_id
       - --job-name=dashboardsalespipelinekeputusan-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineKeputusan
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '300']
+    args: ['sleep', '420']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-selena-dashboardSalesPipelineMaster
@@ -55,13 +85,13 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name, ['nik'] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster
+      - SELECT *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster_with_id
       - --job-name=dashboardsalespipelinemaster-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineMaster
       - --region=asia-southeast2
 
   - name: 'ubuntu'
-    args: ['sleep', '300']
+    args: ['sleep', '420']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-selena-dashboardSalesPipelineMetode
@@ -87,7 +117,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name, ['nik'] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode
+      - SELECT *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode_with_id
       - --job-name=dashboardsalespipelinemetode-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineMetode
       - --region=asia-southeast2
@@ -96,10 +126,37 @@ steps:
     args: ['sleep', '600']
 
   - name: 'gcr.io/cloud-builders/gcloud'
+    id: delete-deployed-function
     args:
       - functions
       - delete
       - decryption-function-selena
       - --region=asia-southeast2
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: delete-bq-dashboardSalesPipelineKeputusan-with-id-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.dashboardSalesPipelineKeputusan_with_id
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['delete-deployed-function']
+    entrypoint: 'bq'
+    id: delete-bq-dashboardSalesPipelineMaster-with-id-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.dashboardSalesPipelineMaster_with_id
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['delete-deployed-function']
+    entrypoint: 'bq'
+    id: delete-bq-dashboardSalesPipelineMetode-with-id-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.dashboardSalesPipelineMetode_with_id
 
 timeout: 3600s
