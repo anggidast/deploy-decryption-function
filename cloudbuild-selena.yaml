@@ -23,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan
+      - SELECT *, 'transaksiSelena' AS table_name, ['nik'] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan
       - --job-name=dashboardsalespipelinekeputusan-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineKeputusan
       - --region=asia-southeast2
@@ -55,7 +55,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster
+      - SELECT *, 'transaksiSelena' AS table_name, ['nik'] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster
       - --job-name=dashboardsalespipelinemaster-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineMaster
       - --region=asia-southeast2
@@ -87,7 +87,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name, [] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode
+      - SELECT *, 'transaksiSelena' AS table_name, ['nik'] AS encrypted_cols, [] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode
       - --job-name=dashboardsalespipelinemetode-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineMetode
       - --region=asia-southeast2
