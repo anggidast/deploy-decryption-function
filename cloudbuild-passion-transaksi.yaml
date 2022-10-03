@@ -68,7 +68,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -132,7 +132,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -196,7 +196,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -260,7 +260,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -324,7 +324,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -388,7 +388,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -452,7 +452,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-transaksi
+      - decryption-function-passion-transaksi-1
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
