@@ -1,10 +1,72 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-barangLelang
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-barangLelang
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=512MB
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-behaviour-consume-table
+    args:
+      - query
+      - --destination_table=aixp.behaviour_consume
+      - --use_legacy_sql=false
+      - SELECT * FROM `crm-production-335312`.aixp.behaviour WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-geography-consume-table
+    args:
+      - query
+      - --destination_table=aixp.geography_consume
+      - --use_legacy_sql=false
+      - SELECT * FROM `crm-production-335312`.aixp.geography WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bq'
+    id: create-bq-produkAktif-consume-table
+    args:
+      - query
+      - --destination_table=aixp.produkAktif_consume
+      - --use_legacy_sql=false
+      - SELECT * FROM `crm-production-335312`.aixp.produkAktif WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-barangLelang
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'barangLelang' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - --job-name=barang-lelang-job
+      - --pubsub-topic=trigger-topic-barangLelang
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '900']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-behaviour
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -36,7 +98,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -55,7 +117,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'contact' AS table_name, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'contact' AS table_name, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=contact-job
       - --pubsub-topic=trigger-topic-contact
       - --region=asia-southeast2
@@ -68,7 +130,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -100,7 +162,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -119,7 +181,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'historiTransaksi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'historiTransaksi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=histori-transaksi-job
       - --pubsub-topic=trigger-topic-historiTransaksi
       - --region=asia-southeast2
@@ -132,7 +194,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -151,7 +213,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=identity-job
       - --pubsub-topic=trigger-topic-identity
       - --region=asia-southeast2
@@ -164,7 +226,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -183,7 +245,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'lifestyle' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'lifestyle' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=lifestyle-job
       - --pubsub-topic=trigger-topic-lifestyle
       - --region=asia-southeast2
@@ -196,7 +258,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -228,7 +290,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -247,7 +309,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'profile' AS table_name, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'profile' AS table_name, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=profile-job
       - --pubsub-topic=trigger-topic-profile
       - --region=asia-southeast2
@@ -260,7 +322,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -279,7 +341,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'promotion' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.promotion WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'promotion' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.promotion WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=promotion-job
       - --pubsub-topic=trigger-topic-promotion
       - --region=asia-southeast2
@@ -292,7 +354,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -311,7 +373,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=status-job
       - --pubsub-topic=trigger-topic-status
       - --region=asia-southeast2
@@ -324,7 +386,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -343,7 +405,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'statusBjdpl' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.statusBjdpl WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'statusBjdpl' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.statusBjdpl WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=statusbjdpl-job
       - --pubsub-topic=trigger-topic-statusBjdpl
       - --region=asia-southeast2
@@ -356,7 +418,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -375,7 +437,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=value-job
       - --pubsub-topic=trigger-topic-value
       - --region=asia-southeast2
@@ -388,7 +450,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -407,7 +469,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'valueEmas' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'valueEmas' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=value-emas-job
       - --pubsub-topic=trigger-topic-valueEmas
       - --region=asia-southeast2
@@ -420,7 +482,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -439,7 +501,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=work-job
       - --pubsub-topic=trigger-topic-work
       - --region=asia-southeast2
@@ -452,7 +514,7 @@ steps:
     args:
       - functions
       - deploy
-      - decryption-function-passion-1
+      - decryption-function-passion
       - --runtime=python38
       - --entry-point=hello_pubsub
       - --source=gs://decryption-function/passion/source-passion.zip
@@ -471,7 +533,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'workAndBusiness' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > '2022-10-02 23:59:00 UTC'
+      - SELECT *, 'workAndBusiness' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=work-and-business-job
       - --pubsub-topic=trigger-topic-workAndBusiness
       - --region=asia-southeast2
@@ -485,14 +547,6 @@ steps:
       - functions
       - delete
       - decryption-function-passion
-      - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: delete-deployed-function-1
-    args:
-      - functions
-      - delete
-      - decryption-function-passion-1
       - --region=asia-southeast2
 
   - name: 'gcr.io/cloud-builders/gcloud'
