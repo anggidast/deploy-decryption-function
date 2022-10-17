@@ -22,7 +22,7 @@ steps:
       - query
       - --destination_table=aixp.dashboardSalesPipelineKeputusan_with_id
       - --use_legacy_sql=false
-      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineKeputusan`
+      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineKeputusan` WHERE DATE(timestamp) = DATE(CURRENT_DATETIME('Asia/Jakarta'))
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
@@ -32,7 +32,7 @@ steps:
       - query
       - --destination_table=aixp.dashboardSalesPipelineMaster_with_id
       - --use_legacy_sql=false
-      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMaster`
+      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMaster` WHERE DATE(timestamp) = DATE(CURRENT_DATETIME('Asia/Jakarta'))
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
@@ -42,7 +42,7 @@ steps:
       - query
       - --destination_table=aixp.dashboardSalesPipelineMetode_with_id
       - --use_legacy_sql=false
-      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMetode`
+      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMetode` WHERE DATE(timestamp) = DATE(CURRENT_DATETIME('Asia/Jakarta'))
 
   - name: 'ubuntu'
     args: ['sleep', '30']
