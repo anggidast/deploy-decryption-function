@@ -7,7 +7,7 @@ steps:
       - decryption-function-selena
       - --runtime=python38
       - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/selena/source-selena.zip
+      - --source=gs://decryption-function/selena/source-selena-1.zip
       - --trigger-topic=trigger-topic-dashboardSalesPipelineKeputusan
       - --allow-unauthenticated
       - --region=asia-southeast2
@@ -69,7 +69,7 @@ steps:
       - decryption-function-selena
       - --runtime=python38
       - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/selena/source-selena.zip
+      - --source=gs://decryption-function/selena/source-selena-1.zip
       - --trigger-topic=trigger-topic-dashboardSalesPipelineMaster
       - --allow-unauthenticated
       - --region=asia-southeast2
@@ -101,7 +101,7 @@ steps:
       - decryption-function-selena
       - --runtime=python38
       - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/selena/source-selena.zip
+      - --source=gs://decryption-function/selena/source-selena-1.zip
       - --trigger-topic=trigger-topic-dashboardSalesPipelineMetode
       - --allow-unauthenticated
       - --region=asia-southeast2
