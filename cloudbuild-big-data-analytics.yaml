@@ -1,0 +1,39 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-BigDataAnalytics
+    args:
+      - functions
+      - deploy
+      - decryption-function-big-data-analytics
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/selena/source-passion.zip
+      - --trigger-topic=trigger-topic-BigDataAnalytics
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=128MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '60']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-BigDataAnalytics
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics
+      - --job-name=big-data-analytics-job
+      - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
+      - --region=asia-southeast2
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: delete-deployed-function
+    args:
+      - functions
+      - delete
+      - decryption-function-big-data-analytics
+      - --region=asia-southeast2
+
+timeout: 3600s
