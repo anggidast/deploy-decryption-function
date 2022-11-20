@@ -1,5 +1,14 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bq'
+    id: create-bq-big-data-analytics-with-consumer-id
+    args:
+      - query
+      - --destination_table=aixp.BigDataAnalytics_with_consumer_id
+      - --use_legacy_sql=false
+      - SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp.BigDataAnalytics
+
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-BigDataAnalytics
     args:
       - functions
@@ -7,7 +16,7 @@ steps:
       - decryption-function-big-data-analytics
       - --runtime=python38
       - --entry-point=hello_pubsub
-      - --source=gs://decryption-function/selena/source-passion.zip
+      - --source=gs://decryption-function/passion/source-passion.zip
       - --trigger-topic=trigger-topic-BigDataAnalytics
       - --allow-unauthenticated
       - --region=asia-southeast2
@@ -18,15 +27,74 @@ steps:
     args: ['sleep', '60']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-BigDataAnalytics
+    id: create-dataflow-job-BigDataAnalytics-1
     args:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id < 0.2
       - --job-name=big-data-analytics-job
       - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-BigDataAnalytics-2
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.2 AND consumer_id < 0.4
+      - --job-name=big-data-analytics-job
+      - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-BigDataAnalytics-3
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.4 AND consumer_id < 0.6
+      - --job-name=big-data-analytics-job
+      - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-BigDataAnalytics-4
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.6 AND consumer_id < 0.8
+      - --job-name=big-data-analytics-job
+      - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-BigDataAnalytics-5
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.8
+      - --job-name=big-data-analytics-job
+      - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: delete-deployed-function
