@@ -405,7 +405,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - SELECT *, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > '2022-11-01'
       - --job-name=status-job
       - --pubsub-topic=trigger-topic-status
       - --region=asia-southeast2
@@ -565,7 +565,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'workAndBusiness' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - SELECT *, 'workAndBusiness' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.workAndBusiness WHERE import_date > '2022-11-18'
       - --job-name=work-and-business-job
       - --pubsub-topic=trigger-topic-workAndBusiness
       - --region=asia-southeast2
