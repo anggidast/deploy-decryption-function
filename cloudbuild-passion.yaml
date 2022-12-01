@@ -1,5 +1,37 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-passion-additionalEvent
+    args:
+      - functions
+      - deploy
+      - decryption-function-passion
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/source-passion.zip
+      - --trigger-topic=trigger-topic-additionalEvent
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=256MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '30']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-passion-additionalEvent
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT *, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent
+      - --job-name=additional-event-job
+      - --pubsub-topic=trigger-topic-additionalEvent
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '900']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-barangLelang
     args:
       - functions
@@ -12,7 +44,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=512MB
+      - --memory=256MB
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
@@ -533,7 +565,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
+      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=work-job
       - --pubsub-topic=trigger-topic-work
       - --region=asia-southeast2
