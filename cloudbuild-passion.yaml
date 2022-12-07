@@ -23,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent
+      - SELECT *, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1 MINUTE))
       - --job-name=additional-event-job
       - --pubsub-topic=trigger-topic-additionalEvent
       - --region=asia-southeast2

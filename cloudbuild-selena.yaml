@@ -12,37 +12,7 @@ steps:
       - --allow-unauthenticated
       - --region=asia-southeast2
       - --timeout=300s
-      - --memory=512MB
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['-']
-    entrypoint: 'bq'
-    id: create-bq-dashboardSalesPipelineKeputusan-with-id-table
-    args:
-      - query
-      - --destination_table=aixp.dashboardSalesPipelineKeputusan_with_id
-      - --use_legacy_sql=false
-      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineKeputusan` WHERE DATE(tanggal_transaksi) = DATE(DATE_SUB(CURRENT_DATETIME('Asia/Jakarta'), INTERVAL 1 DAY))
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['-']
-    entrypoint: 'bq'
-    id: create-bq-dashboardSalesPipelineMaster-with-id-table
-    args:
-      - query
-      - --destination_table=aixp.dashboardSalesPipelineMaster_with_id
-      - --use_legacy_sql=false
-      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMaster` WHERE DATE(tanggal_transaksi) = DATE(DATE_SUB(CURRENT_DATETIME('Asia/Jakarta'), INTERVAL 1 DAY))
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['-']
-    entrypoint: 'bq'
-    id: create-bq-dashboardSalesPipelineMetode-with-id-table
-    args:
-      - query
-      - --destination_table=aixp.dashboardSalesPipelineMetode_with_id
-      - --use_legacy_sql=false
-      - SELECT GENERATE_UUID() AS id, * FROM `crm-production-335312.aixp.dashboardSalesPipelineMetode` WHERE DATE(tanggal_transaksi) = DATE(DATE_SUB(CURRENT_DATETIME('Asia/Jakarta'), INTERVAL 1 DAY))
+      - --memory=256MB
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -53,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan_with_id
+      - SELECT GENERATE_UUID() AS id, *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineKeputusan
       - --job-name=dashboardsalespipelinekeputusan-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineKeputusan
       - --region=asia-southeast2
@@ -85,7 +55,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster_with_id
+      - SELECT GENERATE_UUID() AS id, *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMaster
       - --job-name=dashboardsalespipelinemaster-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineMaster
       - --region=asia-southeast2
@@ -117,7 +87,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode_with_id
+      - SELECT GENERATE_UUID() AS id, *, 'transaksiSelena' AS table_name FROM bigquery.table.`crm-production-335312`.aixp.dashboardSalesPipelineMetode
       - --job-name=dashboardsalespipelinemetode-job
       - --pubsub-topic=trigger-topic-dashboardSalesPipelineMetode
       - --region=asia-southeast2
@@ -132,31 +102,5 @@ steps:
       - delete
       - decryption-function-selena
       - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bq'
-    id: delete-bq-dashboardSalesPipelineKeputusan-with-id-table
-    args:
-      - query
-      - --use_legacy_sql=false
-      - DROP TABLE `crm-production-335312`.aixp.dashboardSalesPipelineKeputusan_with_id
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['delete-deployed-function']
-    entrypoint: 'bq'
-    id: delete-bq-dashboardSalesPipelineMaster-with-id-table
-    args:
-      - query
-      - --use_legacy_sql=false
-      - DROP TABLE `crm-production-335312`.aixp.dashboardSalesPipelineMaster_with_id
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['delete-deployed-function']
-    entrypoint: 'bq'
-    id: delete-bq-dashboardSalesPipelineMetode-with-id-table
-    args:
-      - query
-      - --use_legacy_sql=false
-      - DROP TABLE `crm-production-335312`.aixp.dashboardSalesPipelineMetode_with_id
 
 timeout: 3600s
