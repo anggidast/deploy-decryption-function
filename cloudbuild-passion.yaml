@@ -64,7 +64,7 @@ steps:
       - query
       - --destination_table=aixp.geography_consume
       - --use_legacy_sql=false
-      - SELECT * FROM `crm-production-335312`.aixp.geography WHERE import_date > '2022-12-14'
+      - SELECT * FROM `crm-production-335312`.aixp.geography WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
