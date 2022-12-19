@@ -23,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT *, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent WHERE import_date > '2022-12-15'
       - --job-name=additional-event-job
       - --pubsub-topic=trigger-topic-additionalEvent
       - --region=asia-southeast2
@@ -501,7 +501,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > '2022-12-17'
       - --job-name=value-job
       - --pubsub-topic=trigger-topic-value
       - --region=asia-southeast2
