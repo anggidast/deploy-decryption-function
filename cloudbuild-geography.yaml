@@ -1,0 +1,168 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: deploy-decryption-function-geography-reconsume
+    args:
+      - functions
+      - deploy
+      - decryption-function-geography-reconsume
+      - --runtime=python38
+      - --entry-point=hello_pubsub
+      - --source=gs://decryption-function/passion/geography-reconsume/geography-reconsume.zip
+      - --trigger-topic=trigger-topic-geography-reconsume
+      - --allow-unauthenticated
+      - --region=asia-southeast2
+      - --timeout=300s
+      - --memory=256MB
+
+  - name: 'ubuntu'
+    args: ['sleep', '120']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-1
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 1 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id < 0.1
+      - --job-name=geography-reconsume-1
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-2
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 2 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.1 and consumer_id < 0.2
+      - --job-name=geography-reconsume-2
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-3
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 3 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.2 and consumer_id < 0.3
+      - --job-name=geography-reconsume-3
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-4
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 4 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.3 and consumer_id < 0.4
+      - --job-name=geography-reconsume-4
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-5
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 5 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.4 and consumer_id < 0.5
+      - --job-name=geography-reconsume-5
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-6
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 6 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.5 and consumer_id < 0.6
+      - --job-name=geography-reconsume-6
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-7
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 7 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.6 and consumer_id < 0.7
+      - --job-name=geography-reconsume-7
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-8
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 8 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.7 and consumer_id < 0.8
+      - --job-name=geography-reconsume-8
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-9
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 9 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.8 and consumer_id < 0.9
+      - --job-name=geography-reconsume-9
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '720']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: create-dataflow-job-geography-10
+    args:
+      - dataflow
+      - sql
+      - query
+      - SELECT * EXCEPT(original_timestamp), 10 AS batch, ['nik', 'alamat_ktp', 'alamat_domisili', 'kelurahan_domisili', 'kecamatan_domisili', 'kabupaten_kota_domisili', 'provinsi_domisili', 'kode_pos_domisili'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.geography_reconsume WHERE consumer_id >= 0.9
+      - --job-name=geography-reconsume-10
+      - --pubsub-topic=trigger-topic-geography-reconsume
+      - --region=asia-southeast2
+
+  - name: 'ubuntu'
+    args: ['sleep', '1200']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: delete-deployed-function-geography-reconsume
+    args:
+      - functions
+      - delete
+      - decryption-function-geography-reconsume
+      - --region=asia-southeast2
+
+timeout: 36000s
