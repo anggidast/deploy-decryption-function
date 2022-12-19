@@ -621,14 +621,14 @@ steps:
       - --use_legacy_sql=false
       - DROP TABLE `crm-production-335312`.aixp.behaviour_consume
 
-  # - name: 'gcr.io/cloud-builders/gcloud'
-  #   waitFor: ['delete-deployed-function']
-  #   entrypoint: 'bq'
-  #   id: delete-bq-geography-consume-table
-  #   args:
-  #     - query
-  #     - --use_legacy_sql=false
-  #     - DROP TABLE `crm-production-335312`.aixp.geography_consume
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['delete-deployed-function']
+    entrypoint: 'bq'
+    id: delete-bq-geography-consume-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.geography_consume
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['delete-deployed-function']
