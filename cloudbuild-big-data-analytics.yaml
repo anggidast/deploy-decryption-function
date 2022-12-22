@@ -104,4 +104,13 @@ steps:
       - decryption-function-big-data-analytics
       - --region=asia-southeast2
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['delete-deployed-function']
+    entrypoint: 'bq'
+    id: delete-bq-BigDataAnalytics_with_consumer_id-table
+    args:
+      - query
+      - --use_legacy_sql=false
+      - DROP TABLE `crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id
+
 timeout: 3600s
