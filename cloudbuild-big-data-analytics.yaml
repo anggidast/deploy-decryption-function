@@ -6,7 +6,7 @@ steps:
       - query
       - --destination_table=aixp.BigDataAnalytics_with_consumer_id
       - --use_legacy_sql=false
-      - SELECT *, RAND() AS consumer_id FROM `crm-production-335312`.aixp.BigDataAnalytics
+      - SELECT *, RAND() AS audience_upload_id FROM `crm-production-335312`.aixp.BigDataAnalytics
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-BigDataAnalytics
@@ -32,7 +32,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id < 0.2
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE audience_upload_id < 0.2
       - --job-name=big-data-analytics-job
       - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
@@ -46,7 +46,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.2 AND consumer_id < 0.4
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE audience_upload_id >= 0.2 AND audience_upload_id < 0.4
       - --job-name=big-data-analytics-job
       - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
@@ -60,7 +60,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.4 AND consumer_id < 0.6
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE audience_upload_id >= 0.4 AND audience_upload_id < 0.6
       - --job-name=big-data-analytics-job
       - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
@@ -74,7 +74,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.6 AND consumer_id < 0.8
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE audience_upload_id >= 0.6 AND audience_upload_id < 0.8
       - --job-name=big-data-analytics-job
       - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
@@ -88,7 +88,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE consumer_id >= 0.8
+      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id WHERE audience_upload_id >= 0.8
       - --job-name=big-data-analytics-job
       - --pubsub-topic=trigger-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
@@ -103,14 +103,5 @@ steps:
       - delete
       - decryption-function-big-data-analytics
       - --region=asia-southeast2
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['delete-deployed-function']
-    entrypoint: 'bq'
-    id: delete-bq-BigDataAnalytics_with_consumer_id-table
-    args:
-      - query
-      - --use_legacy_sql=false
-      - DROP TABLE `crm-production-335312`.aixp.BigDataAnalytics_with_consumer_id
 
 timeout: 3600s
