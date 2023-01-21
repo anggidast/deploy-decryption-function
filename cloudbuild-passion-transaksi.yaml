@@ -407,7 +407,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiMpoRekapitulasi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiMpoRekapitulasi
+      - SELECT *, 'transaksiMpoRekapitulasi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiMpoRekapitulasi WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=transaksimporekapitulasi-job
       - --pubsub-topic=trigger-topic-transaksiMpoRekapitulasi
       - --region=asia-southeast2
@@ -503,7 +503,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'transaksiNonAngsuranPencairan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranPencairan
+      - SELECT *, 'transaksiNonAngsuranPencairan' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.transaksiNonAngsuranPencairan WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=transaksinonangsuranpencairan-job
       - --pubsub-topic=trigger-topic-transaksiNonAngsuranPencairan
       - --region=asia-southeast2
