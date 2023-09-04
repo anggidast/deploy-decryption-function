@@ -32,7 +32,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'identify' AS table_name, ['nik'] AS encrypted_cols, ['import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_cltv_decryption.BigDataAnalytics_with_consumer_id WHERE audience_upload_id < 0.2
+      - SELECT * EXCEPT(original_timestamp), 'identify' AS table_name, ['nik'] AS encrypted_cols, ['import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp_cltv_decryption.BigDataAnalytics_with_consumer_id WHERE audience_upload_id < 0.2
       - --job-name=big-data-analytics-job-1
       - --pubsub-topic=trigger-topic-BigDataAnalytics
       - --region=asia-southeast2
