@@ -125,7 +125,7 @@ steps:
       - query
       - --destination_table=aixp_cltv_decryption.cltv
       - --use_legacy_sql=false
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 0.01 AS consumer_id FROM `crm-production-335312`.aixp_ml_prod.cltv_calculation_table WHERE original_timestamp > TIMESTAMP(DATE_TRUNC(CURRENT_DATE('Asia/Jakarta'), MONTH) - 1)
+      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, RAND() AS consumer_id FROM `crm-production-335312`.aixp_ml_prod.cltv_calculation_table WHERE original_timestamp > TIMESTAMP(DATE_TRUNC(CURRENT_DATE('Asia/Jakarta'), MONTH) - 1)
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bq'
