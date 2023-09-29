@@ -23,7 +23,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'additionalEvent' AS table_name, ['nik', 'cif'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.additionalEvent r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=additional-event-job
       - --pubsub-topic=trigger-topic-additionalEvent
       - --region=asia-southeast2
@@ -54,7 +54,7 @@ steps:
       - query
       - --destination_table=aixp.behaviour_consume
       - --use_legacy_sql=false
-      - SELECT * FROM `crm-production-335312`.aixp.behaviour WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* FROM `crm-production-335312`.aixp.behaviour r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
@@ -64,7 +64,7 @@ steps:
       - query
       - --destination_table=aixp.geography_consume
       - --use_legacy_sql=false
-      - SELECT * FROM `crm-production-335312`.aixp.geography WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT * FROM `crm-production-335312`.aixp.geography_bekasi_denpasar WHERE import_date >= '2023-09-27 00:00:00'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['-']
@@ -74,7 +74,7 @@ steps:
       - query
       - --destination_table=aixp.produkAktif_consume
       - --use_legacy_sql=false
-      - SELECT * FROM `crm-production-335312`.aixp.produkAktif WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* FROM `crm-production-335312`.aixp.produkAktif r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
 
   - name: 'ubuntu'
     args: ['sleep', '30']
@@ -85,7 +85,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'barangLelang' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'barangLelang' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.barangLelang r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=barang-lelang-job
       - --pubsub-topic=trigger-topic-barangLelang
       - --region=asia-southeast2
@@ -117,7 +117,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'behaviour' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_jadi_nasabah', 'tanggal_pembaruan_data_nasabah'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.behaviour_consume
+      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'behaviour' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_jadi_nasabah', 'tanggal_pembaruan_data_nasabah'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.behaviour_consume
       - --job-name=behaviour-job
       - --pubsub-topic=trigger-topic-behaviour
       - --region=asia-southeast2
@@ -149,7 +149,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'contact' AS table_name, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'contact' AS table_name, ['nik', 'no_telepon_rumah'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.contact r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=contact-job
       - --pubsub-topic=trigger-topic-contact
       - --region=asia-southeast2
@@ -213,7 +213,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'historiTransaksi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.*, 'historiTransaksi' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_waktu_transaksi'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.historiTransaksi r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=histori-transaksi-job
       - --pubsub-topic=trigger-topic-historiTransaksi
       - --region=asia-southeast2
@@ -245,7 +245,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity_bekasi_denpasar WHERE import_date >= '2023-09-27 00:00:00'
       - --job-name=identity-job
       - --pubsub-topic=trigger-topic-identity
       - --region=asia-southeast2
@@ -277,7 +277,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'lifestyle' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'lifestyle' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.lifestyle r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=lifestyle-job
       - --pubsub-topic=trigger-topic-lifestyle
       - --region=asia-southeast2
@@ -341,7 +341,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'produkAktif' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.produkAktif_consume
+      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'produkAktif' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.produkAktif_consume
       - --job-name=produkaktif-job
       - --pubsub-topic=trigger-topic-produkAktif
       - --region=asia-southeast2
@@ -373,7 +373,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'profile' AS table_name, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'profile' AS table_name, ['nik', 'nama_lengkap'] AS encrypted_cols, ['original_timestamp', 'import_date', 'tanggal_lahir'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.profile_bekasi_denpasar WHERE import_date >= '2023-09-27 00:00:00'
       - --job-name=profile-job
       - --pubsub-topic=trigger-topic-profile
       - --region=asia-southeast2
@@ -437,7 +437,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'status' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date', 'last_unblocked'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.status r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=status-job
       - --pubsub-topic=trigger-topic-status
       - --region=asia-southeast2
@@ -469,7 +469,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'statusBjdpl' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.statusBjdpl WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'statusBjdpl' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.statusBjdpl r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=statusbjdpl-job
       - --pubsub-topic=trigger-topic-statusBjdpl
       - --region=asia-southeast2
@@ -501,7 +501,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'value' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.value r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=value-job
       - --pubsub-topic=trigger-topic-value
       - --region=asia-southeast2
@@ -533,7 +533,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'valueEmas' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'valueEmas' AS table_name, ['nik', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.valueEmas r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=value-emas-job
       - --pubsub-topic=trigger-topic-valueEmas
       - --region=asia-southeast2
@@ -565,7 +565,7 @@ steps:
       - dataflow
       - sql
       - query
-      - SELECT *, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
+      - SELECT r.* EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'work' AS table_name, ['nik'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.work r JOIN bigquery.table.`crm-production-335312`.aixp.data_bekasi_denpasar d ON r.nik = d.nik WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
       - --job-name=work-job
       - --pubsub-topic=trigger-topic-work
       - --region=asia-southeast2
