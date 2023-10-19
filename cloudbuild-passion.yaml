@@ -227,20 +227,6 @@ steps:
     args: ['sleep', '30']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: create-dataflow-job-passion-identity
-    args:
-      - dataflow
-      - sql
-      - query
-      - SELECT * EXCEPT(original_timestamp), CURRENT_TIMESTAMP() as original_timestamp, 'identity' AS table_name, ['nik', 'email', 'phone_number'] AS encrypted_cols, ['original_timestamp', 'import_date'] AS date_cols FROM bigquery.table.`crm-production-335312`.aixp.identity WHERE import_date > TIMESTAMP(DATETIME_SUB(DATETIME_TRUNC(CURRENT_DATETIME('Asia/Jakarta'), DAY), INTERVAL 1441 MINUTE))
-      - --job-name=identity-job
-      - --pubsub-topic=trigger-topic-identity
-      - --region=asia-southeast2
-
-  - name: 'ubuntu'
-    args: ['sleep', '900']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
     id: deploy-decryption-function-passion-lifestyle
     args:
       - functions
